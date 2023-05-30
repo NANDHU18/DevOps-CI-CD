@@ -47,7 +47,7 @@ pipeline {
 
       steps {
         sh 'docker build -t javawebapp:latest .'
-        sh 'docker tag Nandhu18/javawebapp:latest'
+        sh 'docker tag nandhu18/javawebapp:latest'
       }
     }
 	  
@@ -55,7 +55,7 @@ pipeline {
 	  
     stage('Login to DockerHub') {
       steps {
-        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u nandhu18   $DOCKERHUB_CREDENTIALS_USR dckr_pat_zOlFBLfZFRu39o_NLOnQt8AxIgE ---stdin'
+        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u nandhu18   $DOCKERHUB_CREDENTIALS_USR --dckr_pat_zOlFBLfZFRu39o_NLOnQt8AxIgE-stdin'
       }
     }
 	  
@@ -63,7 +63,7 @@ pipeline {
 	  
     stage('Push Image to dockerHUb') {
       steps {
-        sh 'docker push palakbhawsar/javawebapp:latest'
+        sh 'docker push nandhu18/javawebapp:latest'
       }
       post {
         always {
@@ -78,7 +78,7 @@ pipeline {
     stage('Deploy Docker image to AWS instance') {
       steps {
         script {
-          sshagent(credentials: ['awscred']) {
+          sshagent(credentials: ['ubuntu']) {
           sh "ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_SERVER} 'docker stop javaApp || true && docker rm javaApp || true'"
 	  sh "ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_SERVER} 'docker pull palakbhawsar/javawebapp'"
           sh "ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_SERVER} 'docker run --name javaApp -d -p 8081:8081 palakbhawsar/javawebapp'"
