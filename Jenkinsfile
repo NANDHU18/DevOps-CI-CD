@@ -2,8 +2,8 @@ pipeline {
   agent any
 	
   environment {
-    DOCKERHUB_CREDENTIALS = credentials('docker-hub-cred')
-    REMOTE_SERVER = '3.91.145.48'
+    DOCKERHUB_CREDENTIALS = credentials('nandhu18')
+    REMOTE_SERVER = '54.157.52.189'
     REMOTE_USER = 'ubuntu' 	  	  
   }
 	
@@ -47,7 +47,7 @@ pipeline {
 
       steps {
         sh 'docker build -t javawebapp:latest .'
-        sh 'docker tag javawebapp palakbhawsar/javawebapp:latest'
+        sh 'docker tag Nandhu18/javawebapp:latest'
       }
     }
 	  
@@ -55,7 +55,7 @@ pipeline {
 	  
     stage('Login to DockerHub') {
       steps {
-        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u    $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u nandhu18   $DOCKERHUB_CREDENTIALS_USR dckr_pat_zOlFBLfZFRu39o_NLOnQt8AxIgE ---stdin'
       }
     }
 	  
